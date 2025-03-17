@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v3000.0.0 (2025-03-17)
+
+### Chore
+
+* Bumped major version
+
+## v3.2.0-beta.2 (2025-03-17)
+
+
+
 ## v3.1.1 (2025-03-17)
 
 ### Fix
