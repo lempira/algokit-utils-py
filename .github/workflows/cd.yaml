@@ -14,6 +14,15 @@ on:
         type: boolean
         required: true
         default: true
+      bump_manual_version:
+        description: "Manually bump version number"
+        type: boolean
+        required: false
+        default: false
+      manual_version:
+        description: "Version number to set (e.g. 1.2.3)"
+        type: string
+        required: false
 
 concurrency: release
 
@@ -90,3 +99,40 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPOSITORY_USERNAME: __token__
           REPOSITORY_PASSWORD: ${{ secrets.PYPI_API_KEY }}
+
+      - name: Create Continuous Deployment - Manual Version
+        if: inputs.bump_manual_version && !inputs.production_release
+        run: |
+          # Validate manual version is provided
+          if [ -z "${{ inputs.manual_version }}" ]; then
+            echo "Error: manual_version is required when release_type is 'manual'"
+            exit 1
+          fi
+
+          # Set the manual version from input
+          VERSION=${{ inputs.manual_version }}
+
+          # Update version in pyproject.toml
+          poetry version $VERSION
+
+          # Update CHANGELOG.md
+          TODAY=$(date +%Y-%m-%d)
+          NEW_ENTRY="## v$VERSION ($TODAY)\n\n### Chore\n\n* Bumped major version"
+          sed -i 's/<!--next-version-placeholder-->/<!--next-version-placeholder-->\n\n'"$NEW_ENTRY"'/' CHANGELOG.md
+
+          # Commit both changes together
+          git add pyproject.toml CHANGELOG.md
+          git commit -t "$VERSION" -m "$VERSION"
+
+          # Create and push tag
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
+          git push origin main
+
+          # Build the package
+          poetry build
+
+          # Create GitHub release
+          gh release create "v$VERSION" --title "v$VERSION" ./dist/* --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
