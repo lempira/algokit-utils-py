@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v3.1.0 (2025-03-17)
+
+### Feature
+
+* Updated cd yml ([`c9d5b75`](https://github.com/lempira/algokit-utils-py/commit/c9d5b759fea5d1208d3f10cb7512705e0ab37016))
+
+### Fix
+
+* Pip audit ([`e80fb1a`](https://github.com/lempira/algokit-utils-py/commit/e80fb1a95e95d394ecf8b8e9fb4045cb356439d5))
+
 ## v3.0.2 (2025-02-22)
 
 ### Fix
