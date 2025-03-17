@@ -92,7 +92,7 @@ jobs:
             -v DEBUG \
             --define=version_source="commit" \
             --define=patch_without_tag=true \
-            --define=upload_to_repository=true \
+            # --define=upload_to_repository=true \
             --define=branch=main \
             publish
         env:
