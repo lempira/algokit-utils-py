@@ -77,7 +77,6 @@ jobs:
             -v DEBUG \
             --prerelease \
             --define=branch=main \
-            --define=upload_to_repository=true \
             publish
           gh release edit --prerelease "v$(poetry run semantic-release print-version --current)"
         env:
