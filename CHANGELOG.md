@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v3.1.1 (2025-03-17)
+
+### Fix
+
+* Remove upload ([`ed23934`](https://github.com/lempira/algokit-utils-py/commit/ed239348ca90f8906afd0cc3dbae0008c9159f29))
+* Remove upload ([`5c57ed9`](https://github.com/lempira/algokit-utils-py/commit/5c57ed95f0f84e6adab8c619d114e38072f77071))
+
 ## v3.1.0 (2025-03-17)
 
 ### Feature
