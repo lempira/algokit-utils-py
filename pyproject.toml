@@ -20,6 +20,7 @@ dependencies = [
 [dependency-groups]
 cicd = []
 dev = [
+  "pydantic>=2.0.0,<3",
   "pytest>=8,<9",
   "ruff>=0.1.6,<=0.11.8",
   "pip-audit>=2.5.6,<3",
@@ -164,6 +165,7 @@ suppress-none-returning = true
   "I001",
   "RUF022",
 ] # Ignore import sorting for __init__.py
+"scripts/**/*" = ["T201"] # Allow print statements in CLI scripts
 
 
 [tool.poe.tasks]
@@ -258,6 +260,10 @@ sequence = [
   "generate-indexer-client",
   "generate-kmd-client",
 ]
+
+[tool.poe.tasks.generate-schemas]
+cmd = "python scripts/generate_schemas.py"
+help = "Generate Pydantic validation schemas from OpenAPI specs"
 
 [tool.poe.tasks.release-preview]
 sequence = [
