@@ -59,6 +59,7 @@ module-name = [
   "algokit_algo25",
   "algokit_algod_client",
   "algokit_common",
+  "algokit_crypto",
   "algokit_indexer_client",
   "algokit_kmd_client",
   "algokit_transact",

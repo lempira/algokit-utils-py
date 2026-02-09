@@ -24,7 +24,7 @@ from algokit_transact import (
 )
 from algokit_transact.logicsig import LogicSig
 from algokit_transact.logicsig import LogicSigAccount
-from algokit_transact.signer import AddressWithSigners, _MX_BYTES_DOMAIN_SEPARATOR
+from algokit_transact.signer import AddressWithSigners
 
 # Sample LogicSig program (just some bytes)
 LSIG_PROGRAM = bytes([1, 2, 3, 4, 5])
@@ -66,8 +66,8 @@ def _run_tests(
 
     assert public_key_from_address(addr) == expected_pubkey
 
-    # Test that default verifier equals pynacl verifier
-    assert ed25519_verifier == pynacl_ed25519_verifier
+    # Test that default verifier is the same object as the pynacl verifier
+    assert ed25519_verifier is pynacl_ed25519_verifier
 
     # Create a LogicSig and transaction
     lsig = LogicSig(logic=LSIG_PROGRAM)
@@ -100,7 +100,7 @@ def _run_tests(
     mx_bytes = bytes([5, 4, 3, 2, 1])
     mx_bytes_sig = mx_bytes_signer(mx_bytes)
     # Verify the MX bytes signature
-    mx_bytes_to_sign = _MX_BYTES_DOMAIN_SEPARATOR + mx_bytes
+    mx_bytes_to_sign = b"MX" + mx_bytes
     assert ed25519_verifier(mx_bytes_sig, mx_bytes_to_sign, expected_pubkey) is True
 
 
@@ -129,8 +129,8 @@ class TestSigner:
 
     def test_generate_signers_with_pynacl_ed25519_generator(self) -> None:
         """Test generate_address_with_signers using pynacl_ed25519_generator."""
-        # Test that default generator equals pynacl generator
-        assert ed25519_generator == pynacl_ed25519_generator
+        # Test that default generator is the same object as the pynacl generator
+        assert ed25519_generator is pynacl_ed25519_generator
 
         # Generate keypair using pynacl generator
         generated = ed25519_generator()
@@ -184,8 +184,8 @@ class TestSigner:
         # Sign the message using MX bytes signer
         mx_bytes_sig = address_with_signers.mx_bytes_signer(message)
 
-        # Get the bytes that were actually signed
-        signed_bytes = _MX_BYTES_DOMAIN_SEPARATOR + message
+        # Get the bytes that were actually signed (MX domain separator + message)
+        signed_bytes = b"MX" + message
 
         # Verify the signature
         is_valid = ed25519_verifier(mx_bytes_sig, signed_bytes, public_key)
@@ -268,8 +268,8 @@ class TestSigner:
         # Sign the message
         mx_bytes_sig = address_with_signers.mx_bytes_signer(message)
 
-        # Get the bytes that were actually signed
-        signed_bytes = _MX_BYTES_DOMAIN_SEPARATOR + message
+        # Get the bytes that were actually signed (MX domain separator + message)
+        signed_bytes = b"MX" + message
 
         # Verify the signature
         is_valid = ed25519_verifier(mx_bytes_sig, signed_bytes, public_key)
