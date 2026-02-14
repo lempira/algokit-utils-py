@@ -109,6 +109,9 @@ jobs:
     needs: ci-build-python
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
     permissions:
       contents: read
       pages: write
